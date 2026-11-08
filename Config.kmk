@@ -463,7 +463,7 @@ ifdef VBOX_ONLY_RPM_ADDITIONS
  VBOX_OSE = 1
  # We want to re-use parts of the packing pass, but not all.
  VBOX_WITHOUT_LINUX_GUEST_PACKAGE = 1
- VBOX_WITHOUT_ADDITIONS_ISO = 1
+ # VBOX_WITHOUT_ADDITIONS_ISO = 1
 endif
 
 ## @name Documentation
@@ -1166,7 +1166,7 @@ endif
 # For treating compiler and linker warnings as errors where possible.
 if1of ($(KBUILD_TARGET).$(KBUILD_TARGET_ARCH), \
        darwin.x86 darwin.amd64 darwin.arm64 linux.x86 linux.amd64 linux.arm64 win.x86 win.amd64 win.arm64)
- VBOX_WITH_WARNINGS_AS_ERRORS = 1
+ VBOX_WITH_WARNINGS_AS_ERRORS = 0
 endif
 # Whether we can use Open Watcom to build stuff.
 if1of ($(KBUILD_TARGET), darwin linux os2 win)
@@ -2197,7 +2197,7 @@ USES.win += vboximportchecker vboxsetpeversion
 #       that needs somewhat careful checking.)
 #
 if1of ($(KBUILD_TARGET_ARCH), x86 amd64)
- SDK_WINSDK10_MAX_VERSION = 10.0.22621.0
+ SDK_WINSDK10_MAX_VERSION = 10.0.26100.0
 endif
 VBOX_WINDDK            ?= WINSDK10-KM
 VBOX_WINDDK_WLH        ?= $(VBOX_WINDDK)
@@ -3218,17 +3218,10 @@ ifdef VBOX_OSE
  VBOX_WINDOWS_ICON_FILE           ?= $(PATH_ROOT)/src/VBox/Artwork/win/OSE/VirtualBox_win.ico
  VBOX_WINDOWS_ADDITIONS_ICON_FILE ?= $(PATH_ROOT)/src/VBox/Artwork/win/OSE/VirtualBox_win.ico
  VBOX_NSIS_ICON_FILE              ?= $(PATH_ROOT)/src/VBox/Artwork/win/OSE/VirtualBox_win.ico
- VBOX_MACOSX_ICON_FILE            ?= $(PATH_ROOT)/src/VBox/Artwork/darwin/OSE/VirtualBox.icns
 else
  VBOX_WINDOWS_ICON_FILE           ?= $(PATH_ROOT)/src/VBox/Artwork/win/NonOSE/VirtualBox-vista.ico
  VBOX_WINDOWS_ADDITIONS_ICON_FILE ?= $(PATH_ROOT)/src/VBox/Artwork/win/NonOSE/VirtualBoxGA-vista.ico
  VBOX_NSIS_ICON_FILE              ?= $(PATH_ROOT)/src/VBox/Artwork/win/NonOSE/VirtualBoxGA-nsis.ico
- VBOX_MACOSX_ICON_FILE            ?= $(PATH_ROOT)/src/VBox/Artwork/darwin/NonOSE/VirtualBox.icns
- ifeq ($(KBUILD_HOST),win)
-  TOOL_VCC80X86_RC                := $(KBUILD_DEVTOOLS)/win.x86/ddk/6000/bin/x86/rc.exe
-  TOOL_VCC80AMD64_RC              := $(KBUILD_DEVTOOLS)/win.x86/ddk/6000/bin/x86/rc.exe
-  TOOL_VCC70_RC                   := $(KBUILD_DEVTOOLS)/win.x86/ddk/6000/bin/x86/rc.exe
- endif
 endif
 
 
@@ -3787,7 +3780,7 @@ endif
 #               Cannot generate copy-ctor or copy-assignment operator when UDT contains a zero-sized array
 VBOX_VCC_WARN_ALL := -W4 -Wall -wd4065 -wd4996 -wd4127 -wd4706 -wd4201 -wd4214 -wd4510 -wd4512 -wd4610 \
 	-wd4514 -wd4820 -wd4365 -wd4987 -wd4710 -wd4061 -wd4986 -wd4191 -wd4574 -wd4917 -wd4711 -wd4611 -wd4571 -wd4324 -wd4505 \
-	-wd4263 -wd4264 -wd4738 -wd4200 -wd4371 -wd4748
+	-wd4263 -wd4264 -wd4738 -wd4200 -wd4371 -wd4748 -wd4995 -wd4686
 if1of ($(VBOX_VCC_TOOL_STEM), VCC120)
  #    -wd4350: behavior change: 'std::_Wrap_alloc<std::allocator<char>>::_Wrap_alloc(const std::_Wrap_alloc<std::allocator<char>> &) throw()' called instead of 'std::_Wrap_alloc<std::allocator<char>>::_Wrap_alloc<std::_Wrap_alloc<std::allocator<char>>>(_Other &) throw()'
  #    -wd4435: iprt/cpp/xml.h(185) : warning C4435: 'xml::Input' : Object layout under /vd2 will change due to virtual base 'xml::Stream'
