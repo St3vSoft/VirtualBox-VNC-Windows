@@ -77,12 +77,12 @@ This project uses the following tools:
 - Windows SDK and WDK.
 - Git.
 - Python.
+- JDK 17
 - Qt 6.
 - Yasm and NASM.
 - Open Watcom.
 - WiX Toolset.
 - Flex and Bison.
-- vcpkg.
 - libvncserver.
 
 The VNC implementation is built separately using vcpkg and then integrated into the VirtualBox build process.
