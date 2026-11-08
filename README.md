@@ -48,6 +48,12 @@ Please be aware of the following limitations:
 
 The public certificate may be distributed alongside the installer, but the private signing key is never included.
 
+## Driver Signing Certificate
+
+The public test-signing certificate used by this build is available in the [certificates](./certificates/) directory.
+
+Windows Test Signing Mode is required to load the custom kernel drivers.
+
 ## Downloads
 
 Precompiled Windows MSI installers are available in the [GitHub Releases](../../releases) section.
