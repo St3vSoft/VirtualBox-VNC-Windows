@@ -97,10 +97,10 @@ Additional KMK configuration changes are required.
 
 For detailed instructions, see the repository documentation:
 
-- [Build instructions](docs/BUILD.md)
-- [Build configuration](build/LocalConfig.kmk.example)
-- [Driver signing](docs/DRIVER-SIGNING.md)
-- [VNC configuration](docs/VNC-CONFIGURATION.md)
+- [VirtualBox Build Istructions](https://github.com/St3vSoft/VirtualBox-VNC-Windows/wiki/Building-VirtualBox)
+- [Build Environment Setup](https://github.com/St3vSoft/VirtualBox-VNC-Windows/wiki/Build-Environment-Setup)
+- [Driver Signing Certificate](https://github.com/St3vSoft/VirtualBox-VNC-Windows/wiki/Build-Environment-Setup)
+- [libvncserver Build Istructions](https://github.com/St3vSoft/VirtualBox-VNC-Windows/wiki/Building-libvncserver)
 
 For general VirtualBox build requirements, also consult the [official VirtualBox build instructions](https://www.virtualbox.org/wiki/Build_instructions).
 
@@ -111,8 +111,6 @@ VNC access is provided through VirtualBox's VRDE interface.
 The VNC server can be configured using VBoxManage, including its authentication password and listening port.
 
 A standard VNC client can then connect to the virtual machine using the configured host address and port.
-
-See [VNC Configuration](docs/VNC-CONFIGURATION.md) for more information.
 
 ## Project status
 
