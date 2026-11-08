@@ -1166,7 +1166,10 @@ endif
 # For treating compiler and linker warnings as errors where possible.
 if1of ($(KBUILD_TARGET).$(KBUILD_TARGET_ARCH), \
        darwin.x86 darwin.amd64 darwin.arm64 linux.x86 linux.amd64 linux.arm64 win.x86 win.amd64 win.arm64)
+
+ # This needs to be disabled! 
  VBOX_WITH_WARNINGS_AS_ERRORS = 0
+
 endif
 # Whether we can use Open Watcom to build stuff.
 if1of ($(KBUILD_TARGET), darwin linux os2 win)
@@ -3778,9 +3781,14 @@ endif
 #      -wd4244: 'conversion' conversion from 'type1' to 'type2', possible loss of data
 #      -wd4200: nonstandard extension used : zero-sized array in struct/union
 #               Cannot generate copy-ctor or copy-assignment operator when UDT contains a zero-sized array
+
+# These are all the warnings that should be included to be ignored during compilation, in order to prevent failures.
+
 VBOX_VCC_WARN_ALL := -W4 -Wall -wd4065 -wd4996 -wd4127 -wd4706 -wd4201 -wd4214 -wd4510 -wd4512 -wd4610 \
 	-wd4514 -wd4820 -wd4365 -wd4987 -wd4710 -wd4061 -wd4986 -wd4191 -wd4574 -wd4917 -wd4711 -wd4611 -wd4571 -wd4324 -wd4505 \
 	-wd4263 -wd4264 -wd4738 -wd4200 -wd4371 -wd4748 -wd4995 -wd4686
+
+
 if1of ($(VBOX_VCC_TOOL_STEM), VCC120)
  #    -wd4350: behavior change: 'std::_Wrap_alloc<std::allocator<char>>::_Wrap_alloc(const std::_Wrap_alloc<std::allocator<char>> &) throw()' called instead of 'std::_Wrap_alloc<std::allocator<char>>::_Wrap_alloc<std::_Wrap_alloc<std::allocator<char>>>(_Other &) throw()'
  #    -wd4435: iprt/cpp/xml.h(185) : warning C4435: 'xml::Input' : Object layout under /vd2 will change due to virtual base 'xml::Stream'
