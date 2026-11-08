@@ -1,91 +1,137 @@
-# Oracle VirtualBox
+# VirtualBox VNC for Windows
 
-VirtualBox is a general-purpose full virtualization software for x86_64
-hardware (with version 7.1 additionally for macOS/Arm), targeted at laptop,
-desktop, server and embedded use.
+**A custom Windows build of Oracle VirtualBox with integrated VNC support.**
 
-It features a very user friendly graphical user interface and is available for
-many popular operating systems (Linux, Windows, macOS and Solaris). Flexible
-networking setup and interactive performance are the strong points.
+## Overview
 
-Anyone with the need to run multiple operating systems simultaneously with some
-basic knowledge about PCs and operating system installation can use it to
-reduce effort with a large number of tasks including software testing.
+VirtualBox VNC for Windows is a community-maintained custom build of Oracle VirtualBox that enables VNC support through the VirtualBox Remote Desktop Extension (VRDE).
 
-## Getting started
+While VNC support is available out of the box on Linux, Windows users do not have an equivalent ready-to-use binary distribution.
 
-VirtualBox is a complex product with multiple dependencies, some of them
-specific to the operating system on which you want to run it.
+This project aims to bridge that gap by integrating the existing VNC implementation into a custom Windows build of VirtualBox, using [libvncserver](https://github.com/LibVNC/libvncserver).
 
-The basics for building VirtualBox are described on the [build
-instructions](https://www.virtualbox.org/wiki/Build_instructions) page.
+The goal is to allow users to connect directly to their virtual machines using standard VNC clients, such as TigerVNC, RealVNC and TightVNC, without requiring an external VNC server running on the Windows host.
 
-## Documentation
+## Features
 
-The [VirtualBox User
-Guide](https://docs.oracle.com/en/virtualization/virtualbox/index.html)
-contains all information relevant for users, including the product features and
-their configuration.
+- Integrated VRDE VNC support for Windows.
+- Based on the original Oracle VirtualBox source code.
+- Uses libvncserver for VNC functionality.
+- Custom Windows MSI installer.
+- Compatible with standard VNC clients.
+- Guest Additions ISO can be obtained from the official VirtualBox distribution.
 
-For developers it is recommended to start with the [technical
-documentation](https://www.virtualbox.org/wiki/Technical_documentation) which
-contains links to a broad collection of pages related to development, covering
-many aspects of the project and its features.
+## Why this project?
 
-## Examples
+The official VirtualBox distribution for Windows does not provide a ready-to-use VNC-enabled build.
 
-Tutorials on how to install and use Oracle VirtualBox are available at
-[Learn to Install Oracle VirtualBox and Run Virtual Machines](https://blogs.oracle.com/linux/post/learn-to-install-oracle-virtualbox-and-run-virtual-machines)
-and [Use Oracle VirtualBox on Oracle Linux](https://docs.oracle.com/en/learn/ol-vbox/index.html).
+Simply compiling the VNC Extension Pack separately is not sufficient for this particular Windows setup, since the official VirtualBox distribution does not accept the independently built package used in this project.
 
-## Help
+For this reason, the VirtualBox source code itself needs to be rebuilt with VNC support enabled.
 
-Oracle customers with a support contract covering Oracle VirtualBox should
-reach out to [Oracle Support](https://www.oracle.com/support/).
+This repository provides the modifications, build configuration and documentation required to reproduce the process.
 
-Everyone can use the [VirtualBox Forums](https://forums.virtualbox.org/)
-for questions about the product or discussing its functionality. Open an [issue](https://github.com/VirtualBox/virtualbox/issues)
-for bug reports or request for enhancements. Report a security vulnerability
-according to the [Reporting Vulnerabilities Guide](https://www.oracle.com/corporate/security-practices/assurance/vulnerability/reporting.html).
+## Requirements and limitations
 
-## Contributing
+This is an unofficial, experimental build.
 
-This project welcomes contributions from the community. Before submitting a
-pull request, please [review our contribution guide](./CONTRIBUTING.md)
+Please be aware of the following limitations:
 
-## Security
+- The custom kernel drivers are signed using a test-signing certificate.
+- Windows Test Signing Mode is required to load these drivers.
+- The corresponding public certificate must be installed.
+- Test Signing Mode reduces Windows driver-signing protections.
+- The build uses a modified configuration, including `VBOX_WITHOUT_HARDENING`.
+- This build is not officially supported by Oracle.
 
-Please consult the [security guide](./SECURITY.md) for our responsible security vulnerability disclosure process.
+**Important:** Do not install certificates or kernel drivers from sources you do not trust. Test-signing configurations should preferably be used on dedicated testing systems.
 
-## License
+The public certificate may be distributed alongside the installer, but the private signing key is never included.
 
-The correct copyright notice format for both documentation and software is
+## Downloads
 
-    Copyright (C) [year-]year Oracle and/or its affiliates.
+Precompiled Windows MSI installers are available in the [GitHub Releases](../../releases) section.
 
-    This file is part of VirtualBox base platform packages, as
-    available from https://www.virtualbox.org.
+Each release should include:
 
-    This program is free software; you can redistribute it and/or
-    modify it under the terms of the GNU General Public License
-    as published by the Free Software Foundation, in version 3 of the
-    License.
+- VirtualBox MSI installer.
+- Public test-signing certificate (`.CER`).
+- Release notes.
+- Supported VirtualBox version and Windows compatibility information.
 
-    This program is distributed in the hope that it will be useful, but
-    WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    General Public License for more details.
+Please read the installation instructions and security requirements before installing.
 
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, see <https://www.gnu.org/licenses>.
+## Building from source
 
-You must include the year the content was first released (on any platform) and
-the most recent year in which it was revised:
+Building VirtualBox on Windows requires a substantial development environment and several dependencies.
 
-    Copyright (C) 2025 Oracle and/or its affiliates.
+This project uses the following tools:
 
-Released under the GNU General Public License v3.0 as shown at
-[COPYING](./COPYING) which contains clarifications regarding allowed licenses
-for other code using parts of the project which are covered by multiple
-licenses.
+- Microsoft Visual Studio 2022 Build Tools.
+- Windows SDK and WDK.
+- Git.
+- Python.
+- Qt 6.
+- Yasm and NASM.
+- Open Watcom.
+- WiX Toolset.
+- Flex and Bison.
+- vcpkg.
+- libvncserver.
 
+The VNC implementation is built separately using vcpkg and then integrated into the VirtualBox build process.
+
+The build configuration enables VNC through:
+
+```makefile
+VBOX_WITH_EXTPACK_VNC = 1
+```
+
+Additional KMK configuration changes are required.
+
+For detailed instructions, see the repository documentation:
+
+- [Build instructions](docs/BUILD.md)
+- [Build configuration](build/LocalConfig.kmk.example)
+- [Driver signing](docs/DRIVER-SIGNING.md)
+- [VNC configuration](docs/VNC-CONFIGURATION.md)
+
+For general VirtualBox build requirements, also consult the [official VirtualBox build instructions](https://www.virtualbox.org/wiki/Build_instructions).
+
+## VNC configuration
+
+VNC access is provided through VirtualBox's VRDE interface.
+
+The VNC server can be configured using VBoxManage, including its authentication password and listening port.
+
+A standard VNC client can then connect to the virtual machine using the configured host address and port.
+
+See [VNC Configuration](docs/VNC-CONFIGURATION.md) for more information.
+
+## Project status
+
+This project is maintained independently and is not affiliated with, endorsed by, or supported by Oracle.
+
+It is intended to provide an alternative Windows build for users who need VNC functionality.
+
+Updates will depend on compatibility with newer VirtualBox versions and the maintenance of the required build modifications.
+
+## License and attribution
+
+This project is based on the original Oracle VirtualBox source code.
+
+VirtualBox base platform packages are distributed under the GNU General Public License, version 3 (GPLv3), subject to the licensing clarifications and additional terms contained in the original `COPYING` file.
+
+Please refer to the original [COPYING](./COPYING) file for complete licensing information, including the conditions applicable to third-party components.
+
+Original copyright notices and attribution must be preserved.
+
+This project does not claim ownership of Oracle VirtualBox or libvncserver.
+
+- [Oracle VirtualBox](https://www.virtualbox.org/)
+- [VirtualBox source code](https://github.com/VirtualBox/virtualbox)
+- [libvncserver](https://github.com/LibVNC/libvncserver)
+
+---
+
+**Disclaimer:** Oracle and VirtualBox are trademarks of Oracle and/or its affiliates. This is an independent community project and is not an official Oracle product.
