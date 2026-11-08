@@ -1,0 +1,12 @@
+prefix=C:/VNCBuild/install
+exec_prefix=C:/VNCBuild/install
+libdir=C:/VNCBuild/install/lib
+includedir=C:/VNCBuild/install/include
+
+Name: LibVNCServer
+Description: A library for easy implementation of a VNC server.
+Version: 0.9.15
+Requires: 
+Requires.private: 
+Libs: -L${libdir} -lvncserver
+Cflags: -I${includedir}

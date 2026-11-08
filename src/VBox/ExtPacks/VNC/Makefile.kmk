@@ -69,7 +69,10 @@ DLLS += VBoxVNC
 VBoxVNC_TEMPLATE = VBoxR3ExtPackVNC
 VBoxVNC_SOURCES = VBoxVNC.cpp
 # NOTE: vncserver is covered by GPL, so the extpack must be GPL, too.
-VBoxVNC_LIBS = vncserver
+
+# VERY IMPORTANT: Enter the actual path to the static library (.lib) file for libvncserver, which has been compiled separately.
+VBoxVNC_INCS = VNCBuild/install/include
+VBoxVNC_LIBS = VNCBuild/install/lib/vncserver.lib ws2_32.lib
 VBoxVNC_DEFS =
 
 #
