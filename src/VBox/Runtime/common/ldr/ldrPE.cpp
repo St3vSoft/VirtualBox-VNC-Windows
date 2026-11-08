@@ -4863,7 +4863,8 @@ static int rtldrPEValidateDirectoriesAndRememberStuff(PRTLDRMODPE pModPe, const 
         if (   fNewerStructureHack
             && Dir.Size > cbMaxKnown
             && !(fFlags & (RTLDR_O_FOR_DEBUG | RTLDR_O_FOR_VALIDATION))
-            && !ASMMemIsZero(&u.abZeros[cbMaxKnown], Dir.Size - cbMaxKnown))
+            && !ASMMemIsZero(&u.abZeros[cbMaxKnown], Dir.Size - cbMaxKnown)
+            && 0 /* tolerate non-zero tail of newer load config structures (MSVC 14.44) */)
         {
             Log(("rtldrPEOpen: %s: load cfg dir: Unexpected bytes are non-zero (%u bytes of which %u expected to be zero): %.*Rhxs\n",
                  pszLogName, Dir.Size, Dir.Size - cbMaxKnown, Dir.Size - cbMaxKnown, &u.abZeros[cbMaxKnown]));
@@ -4912,7 +4913,8 @@ static int rtldrPEValidateDirectoriesAndRememberStuff(PRTLDRMODPE pModPe, const 
                 if (   fNewerStructureHack
                     && Dir.Size > cbMaxKnown
                     && !(fFlags & (RTLDR_O_FOR_DEBUG | RTLDR_O_FOR_VALIDATION))
-                    && !ASMMemIsZero(&u.abZeros[cbMaxKnown], Dir.Size - cbMaxKnown))
+                    && !ASMMemIsZero(&u.abZeros[cbMaxKnown], Dir.Size - cbMaxKnown)
+                    && 0 /* tolerate non-zero tail of newer load config structures (MSVC 14.44) */)
                 {
                     Log(("rtldrPEOpen: %s: load cfg dir: Unknown bytes are non-zero (%u bytes of which %u expected to be zero): %.*Rhxs\n",
                          pszLogName, Dir.Size, Dir.Size - cbMaxKnown, Dir.Size - cbMaxKnown, &u.abZeros[cbMaxKnown]));
