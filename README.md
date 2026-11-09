@@ -85,8 +85,6 @@ This project uses the following tools:
 - Flex and Bison.
 - libvncserver.
 
-The VNC implementation is built separately using vcpkg and then integrated into the VirtualBox build process.
-
 The build configuration enables VNC through:
 
 ```makefile
