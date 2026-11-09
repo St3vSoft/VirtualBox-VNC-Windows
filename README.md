@@ -44,7 +44,9 @@ Please be aware of the following limitations:
 - The build uses a modified configuration, including `VBOX_WITHOUT_HARDENING`.
 - This build is not officially supported by Oracle.
 
-**Important:** Do not install certificates or kernel drivers from sources you do not trust. Test-signing configurations should preferably be used on dedicated testing systems.
+
+> [!IMPORTANT]
+> Do not install certificates or kernel drivers from sources you do not trust. Test-signing configurations should preferably be used on dedicated testing systems.
 
 The public certificate may be distributed alongside the installer, but the private signing key is never included.
 
